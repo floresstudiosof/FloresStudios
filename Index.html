@@ -1,0 +1,155 @@
+<!DOCTYPE html><html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Descargar TikTok Sin Marca de Agua</title>
+<script src="https://cdn.tailwindcss.com"></script><style>
+body{background:linear-gradient(180deg,#ffd4e5,#ffeef6)}
+.loader{border:6px solid #fff;border-top:6px solid #ff4fa2;border-radius:50%;width:45px;height:45px;animation:spin .9s linear infinite;margin:auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Luces */
+.lights{display:flex;justify-content:space-between;position:absolute;top:-8px;left:0;width:100%;padding:0 10px}
+.bulb{width:14px;height:14px;border-radius:50%;animation:glow 1.5s infinite alternate}
+.bulb:nth-child(odd){animation-delay:.7s}
+@keyframes glow{from{opacity:.4}to{opacity:1;box-shadow:0 0 12px currentColor}}
+
+/* Botón */
+.btn-main{background:linear-gradient(45deg,#ff4fa2,#ff7ac7);animation:pulse 1.4s infinite;color:#fff}
+@keyframes pulse{50%{transform:scale(1.05)}}
+
+/* Nieve */
+.snowflake{position:fixed;top:-10px;color:#fff;z-index:9999;animation:fall linear infinite}
+@keyframes fall{to{transform:translateY(110vh);opacity:0}}
+
+/* Fuegos */
+.firework{position:fixed;width:6px;height:6px;border-radius:50%;animation:explode 1.2s ease-out forwards;z-index:9998}
+@keyframes explode{to{transform:scale(25);opacity:0}}
+
+/* Texto Año Nuevo */
+.newyear-text{position:fixed;top:30%;left:50%;transform:translateX(-50%);font-size:80px;font-weight:900;letter-spacing:6px;color:transparent;display:flex;gap:10px;pointer-events:none;z-index:9997}
+.newyear-text span{animation:spark 1.6s infinite}
+@keyframes spark{to{text-shadow:0 0 20px gold,0 0 40px red}}
+
+/* Cumpleaños */
+.bday-text{position:fixed;top:30%;left:50%;transform:translateX(-50%);font-size:64px;font-weight:900;color:#ff5722;z-index:9997;animation:bounce 1.8s infinite;pointer-events:none}
+@keyframes bounce{50%{transform:translateX(-50%) scale(1.05)}}
+.confetti{position:fixed;width:8px;height:12px;animation:confettiFall 4s linear forwards;z-index:9998}
+@keyframes confettiFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+/* WhatsApp */
+.whatsapp{position:fixed;bottom:20px;right:20px;background:#25D366;padding:14px;border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:9999}
+.whatsapp img{width:36px;height:36px}
+</style></head>
+<body class="text-gray-800"><div class="max-w-xl mx-auto p-6 mt-6 bg-white rounded-2xl shadow-xl border border-pink-300 relative"><div class="lights">
+<div class="bulb" style="background:red;color:red"></div>
+<div class="bulb" style="background:gold;color:gold"></div>
+<div class="bulb" style="background:green;color:green"></div>
+<div class="bulb" style="background:blue;color:blue"></div>
+<div class="bulb" style="background:red;color:red"></div>
+</div><div id="banner" class="text-center py-2 rounded-xl mb-4 font-semibold"></div><h2 class="text-3xl font-bold text-center text-pink-600 mb-4">Descargar Videos de TikTok</h2>
+<p class="text-center text-gray-600 mb-6">Sin marca de agua | HD | 4K | MP3</p><input id="videoURL" class="w-full p-3 border-2 border-pink-400 rounded-xl" placeholder="Pega aquí el enlace de TikTok">
+<button onclick="processVideo()" class="w-full mt-4 p-3 rounded-xl font-semibold btn-main">🎁 Descargar</button><div id="loading" class="hidden mt-4"><div class="loader"></div></div><div id="previewContainer" class="hidden mt-6">
+<video id="previewVideo" controls class="w-full rounded-xl"></video>
+<div class="grid gap-3 mt-4">
+<a id="downloadHD" target="_blank" class="bg-pink-500 text-white p-3 rounded-xl text-center">Descargar HD</a>
+<a id="download4K" target="_blank" class="bg-pink-600 text-white p-3 rounded-xl text-center">Descargar 4K</a>
+<a id="downloadMP3" target="_blank" class="bg-pink-700 text-white p-3 rounded-xl text-center">Descargar MP3</a>
+</div>
+</div>
+</div><footer class="max-w-xl mx-auto mt-6 mb-10 p-4 bg-white rounded-2xl shadow text-center text-xs text-gray-500">
+© 2026 FLORES Studios. Todos los derechos reservados.
+</footer><!-- Video TikTok embebido --><div class="max-w-xl mx-auto mb-10 bg-white rounded-2xl shadow-xl border border-pink-300 p-4">
+  <blockquote class="tiktok-embed"
+    cite="https://www.tiktok.com/@floresstudios/video/7582554970243747093"
+    data-video-id="7582554970243747093"
+    style="max-width:100%;min-width:325px;">
+    <section></section>
+  </blockquote>
+</div>
+<script async src="https://www.tiktok.com/embed.js"></script><a href="https://wa.me/51956461177?text=Hola%20vengo%20desde%20la%20p%C3%A1gina%20web" target="_blank" class="whatsapp">
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+</a><script>
+const today=new Date();
+const m=today.getMonth();
+const d=today.getDate();
+const banner=document.getElementById('banner');
+
+function playMusic(url){
+  const audio=new Audio(url);
+  audio.loop=true;
+  audio.volume=.5;
+  audio.play().catch(()=>{});
+}
+
+/* Navidad */
+if(m===11 && d<=25){
+  banner.innerHTML='<span class="text-pink-600">🎄 Feliz Navidad 2025 🎄</span>';
+  playMusic('https://cdn.pixabay.com/download/audio/2022/12/07/audio_9f2f7b3a59.mp3');
+  for(let i=0;i<30;i++){
+    const s=document.createElement('div');
+    s.className='snowflake';
+    s.innerText='❄';
+    s.style.left=Math.random()*100+'vw';
+    s.style.animationDuration=5+Math.random()*5+'s';
+    document.body.appendChild(s);
+  }
+}
+
+/* Año Nuevo */
+else if((m===11 && d===31)||(m===0 && d===1)){
+  banner.innerHTML='🎆 Feliz Año Nuevo 2026 🎆';
+  playMusic('https://cdn.pixabay.com/download/audio/2021/08/04/audio_062c1c6e27.mp3');
+  const ny=document.createElement('div');ny.className='newyear-text';document.body.appendChild(ny);
+  '2026'.split('').forEach((c,i)=>{const s=document.createElement('span');s.innerText=c;s.style.animationDelay=i*.4+'s';ny.appendChild(s)});
+  setInterval(()=>{
+    const f=document.createElement('div');
+    f.className='firework';
+    f.style.left=Math.random()*100+'vw';
+    f.style.top=Math.random()*100+'vh';
+    f.style.background=`hsl(${Math.random()*360},100%,60%)`;
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1200);
+  },500);
+}
+
+/* Cumpleaños */
+else if(m===0 && d===26){
+  banner.innerHTML='🎂 Feliz Cumpleaños Yerson Humiri 🎉';
+  playMusic('https://cdn.pixabay.com/download/audio/2022/03/15/audio_7c6a1d1d0c.mp3');
+  const t=document.createElement('div');t.className='bday-text';t.innerText='YERSON HUMIRI';document.body.appendChild(t);
+  for(let i=0;i<120;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=Math.random()*100+'vw';
+    c.style.background=`hsl(${Math.random()*360},90%,60%)`;
+    document.body.appendChild(c);
+  }
+}else banner.remove();
+
+async function processVideo(){
+  const url=document.getElementById('videoURL').value.trim();
+  if(!url||!url.includes('tiktok.com')) return alert('Pega un enlace válido de TikTok');
+
+  loading.classList.remove('hidden');
+  previewContainer.classList.add('hidden');
+
+  try{
+    const r=await fetch('https://www.tikwm.com/api/',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({url:url,hd:1})
+    });
+    const j=await r.json();
+    if(j.code!==0) throw 'error';
+    previewVideo.src=j.data.play;
+    downloadHD.href=j.data.play;
+    download4K.href=j.data.hdplay||j.data.play;
+    downloadMP3.href=j.data.music||'#';
+    previewContainer.classList.remove('hidden');
+  }catch(e){alert('No se pudo procesar el video');}
+
+  loading.classList.add('hidden');
+}
+</script></body>
+</html>
