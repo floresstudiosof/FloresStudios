@@ -8,6 +8,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
+/* Fondo */
 body{
   background:linear-gradient(180deg,#d1fae5,#ecfeff);
 }
@@ -52,6 +53,7 @@ body{
 
 <body class="text-gray-800">
 
+<!-- CONTENEDOR PRINCIPAL -->
 <div class="max-w-xl mx-auto p-6 mt-8 bg-white rounded-2xl shadow-xl border border-emerald-300">
 
   <h1 class="text-3xl font-bold text-center text-emerald-600 mb-4">
@@ -99,11 +101,12 @@ body{
   </div>
 </div>
 
+<!-- FOOTER -->
 <footer class="max-w-xl mx-auto mt-6 mb-10 p-4 bg-white rounded-2xl shadow text-center text-xs text-gray-500">
   © 2026 FLORES Studios. Todos los derechos reservados.
 </footer>
 
-<!-- TikTok embed (opcional) -->
+<!-- TIKTOK EMBED -->
 <div class="max-w-xl mx-auto mb-10 bg-white rounded-2xl shadow-xl border border-emerald-300 p-4">
   <blockquote class="tiktok-embed"
     cite="https://www.tiktok.com/@floresstudios/video/7582554970243747093"
@@ -114,13 +117,14 @@ body{
 </div>
 <script async src="https://www.tiktok.com/embed.js"></script>
 
-<!-- WhatsApp -->
+<!-- WHATSAPP -->
 <a href="https://wa.me/51956461177?text=Hola%20vengo%20desde%20la%20p%C3%A1gina%20web"
    target="_blank"
    class="whatsapp">
   <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
 </a>
 
+<!-- SCRIPT -->
 <script>
 async function processVideo(){
   const url = document.getElementById('videoURL').value.trim();
@@ -147,7 +151,7 @@ async function processVideo(){
     });
 
     const data = await response.json();
-    if(data.code !== 0) throw new Error('API error');
+    if(data.code !== 0) throw new Error();
 
     previewVideo.src = data.data.play;
     downloadHD.href = data.data.play;
@@ -155,7 +159,7 @@ async function processVideo(){
     downloadMP3.href = data.data.music || '#';
 
     previewContainer.classList.remove('hidden');
-  }catch(err){
+  }catch(e){
     alert('No se pudo procesar el video');
   }
 
