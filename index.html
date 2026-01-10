@@ -8,11 +8,32 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-body{
-  background:linear-gradient(180deg,#d1fae5,#ecfeff);
+/* ===== VIDEO DE FONDO ===== */
+.video-bg{
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  overflow:hidden;
 }
+.video-bg video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* Overlay seguro (NO bloquea clics) */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.15);
+  z-index:-1;
+  pointer-events:none;
+}
+
+/* ===== ESTILOS ===== */
 .loader{
-  border:6px solid #fff;
+  border:6px solid #ffffff;
   border-top:6px solid #10b981;
   border-radius:50%;
   width:45px;
@@ -21,27 +42,36 @@ body{
   margin:auto;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
+
 .btn-main{
   background:linear-gradient(45deg,#10b981,#06b6d4);
-  color:#fff;
+  color:#ffffff;
 }
 </style>
 </head>
 
-<body class="text-gray-800">
+<body class="text-white">
 
-<div class="max-w-xl mx-auto p-6 mt-8 bg-white rounded-2xl shadow-xl border border-emerald-300">
+<!-- VIDEO DE FONDO -->
+<div class="video-bg">
+  <video autoplay muted loop playsinline>
+    <source src="https://www.dropbox.com/scl/fi/m5qas2mhvfgjy3p5k7o2l/descarga-5-4.mp4?rlkey=ii5nf1cf8kqc39fa5g920opiz&dl=1" type="video/mp4">
+  </video>
+</div>
 
-  <h2 class="text-3xl font-bold text-center text-emerald-600 mb-4">
+<!-- ================= CONTENIDO PRINCIPAL ================= -->
+<div class="max-w-xl mx-auto p-6 mt-8 relative z-10">
+
+  <h2 class="text-3xl font-bold text-center text-emerald-300 mb-4 drop-shadow-lg">
     Descargar TikTok
   </h2>
 
-  <p class="text-center text-gray-600 mb-6">
+  <p class="text-center text-emerald-100 mb-6 drop-shadow">
     Video · Imagen · Alta calidad
   </p>
 
   <input id="videoURL"
-    class="w-full p-3 border-2 border-emerald-400 rounded-xl"
+    class="w-full p-3 border-2 border-emerald-300 rounded-xl bg-black/40 text-white placeholder-gray-200"
     placeholder="Pega aquí el enlace de TikTok">
 
   <button onclick="processTikTok()"
@@ -53,53 +83,45 @@ body{
     <div class="loader"></div>
   </div>
 
-  <!-- PREVIEW -->
   <div id="previewContainer" class="hidden mt-6">
 
-    <!-- VIDEO -->
     <video id="previewVideo" controls class="w-full rounded-xl hidden"></video>
-
-    <!-- IMAGEN -->
     <img id="previewImage" class="w-full rounded-xl hidden" alt="Imagen TikTok">
 
-    <!-- BOTONES -->
     <div class="grid gap-3 mt-4">
       <a id="downloadHD" target="_blank"
          class="hidden bg-emerald-500 text-white p-3 rounded-xl text-center">
         Descargar Video HD
       </a>
-
       <a id="download4K" target="_blank"
          class="hidden bg-emerald-600 text-white p-3 rounded-xl text-center">
         Descargar Video 4K
       </a>
-
       <a id="downloadMP3" target="_blank"
          class="hidden bg-emerald-700 text-white p-3 rounded-xl text-center">
         Descargar MP3
       </a>
-
       <a id="downloadIMG" target="_blank" download
          class="hidden bg-cyan-600 text-white p-3 rounded-xl text-center">
-        Descargar Imagen (Alta calidad)
+        Descargar Imagen
       </a>
     </div>
   </div>
 </div>
 
-<footer class="max-w-xl mx-auto mt-6 mb-10 p-4 bg-white rounded-2xl shadow text-center text-xs text-gray-500">
+<!-- ================= FOOTER ================= -->
+<footer class="max-w-xl mx-auto mt-6 mb-10 p-4 text-center text-xs text-gray-200 relative z-10">
 © 2026 FLORES Studios. Todos los derechos reservados.
 </footer>
 
+<!-- ================= SCRIPT ================= -->
 <script>
 async function processTikTok(){
   const url = document.getElementById('videoURL').value.trim();
   const loading = document.getElementById('loading');
   const previewContainer = document.getElementById('previewContainer');
-
   const previewVideo = document.getElementById('previewVideo');
   const previewImage = document.getElementById('previewImage');
-
   const downloadHD = document.getElementById('downloadHD');
   const download4K = document.getElementById('download4K');
   const downloadMP3 = document.getElementById('downloadMP3');
@@ -110,7 +132,6 @@ async function processTikTok(){
     return;
   }
 
-  // Reset
   previewContainer.classList.add('hidden');
   previewVideo.classList.add('hidden');
   previewImage.classList.add('hidden');
@@ -118,52 +139,38 @@ async function processTikTok(){
   download4K.classList.add('hidden');
   downloadMP3.classList.add('hidden');
   downloadIMG.classList.add('hidden');
-
   loading.classList.remove('hidden');
 
   try{
-    const r = await fetch('https://www.tikwm.com/api/',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ url:url, hd:1 })
-    });
+    const apiURL = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`;
+    const res = await fetch(apiURL);
+    const json = await res.json();
+    if(json.code !== 0 || !json.data) throw new Error();
 
-    const j = await r.json();
-    if(j.code !== 0 || !j.data) throw 'error';
+    const d = json.data;
 
-    /* ===== VIDEO ===== */
-    if(j.data.play){
-      previewVideo.src = j.data.play;
+    if(d.play){
+      previewVideo.src = d.play;
       previewVideo.classList.remove('hidden');
-
-      downloadHD.href = j.data.play;
-      download4K.href = j.data.hdplay || j.data.play;
-      downloadMP3.href = j.data.music || '#';
-
+      downloadHD.href = d.play;
+      download4K.href = d.hdplay || d.play;
+      downloadMP3.href = d.music || '#';
       downloadHD.classList.remove('hidden');
       download4K.classList.remove('hidden');
       downloadMP3.classList.remove('hidden');
     }
 
-    /* ===== IMAGEN ===== */
-    let imageUrl = null;
-
-    if(Array.isArray(j.data.images) && j.data.images.length){
-      imageUrl = j.data.images[0];
-    }else if(
-      j.data.image_post_info &&
-      Array.isArray(j.data.image_post_info.images) &&
-      j.data.image_post_info.images.length &&
-      j.data.image_post_info.images[0].display_image &&
-      Array.isArray(j.data.image_post_info.images[0].display_image.url_list)
-    ){
-      imageUrl = j.data.image_post_info.images[0].display_image.url_list[0];
+    let img = null;
+    if(Array.isArray(d.images) && d.images.length){
+      img = d.images[0];
+    }else if(d.image_post_info?.images?.[0]?.display_image?.url_list){
+      img = d.image_post_info.images[0].display_image.url_list[0];
     }
 
-    if(imageUrl){
-      previewImage.src = imageUrl;
+    if(img){
+      previewImage.src = img;
       previewImage.classList.remove('hidden');
-      downloadIMG.href = imageUrl;
+      downloadIMG.href = img;
       downloadIMG.classList.remove('hidden');
     }
 
