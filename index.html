@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Descargar TikTok</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
@@ -14,6 +14,7 @@
   inset:0;
   z-index:-2;
   overflow:hidden;
+  background:#000;
 }
 .video-bg video{
   width:100%;
@@ -21,7 +22,14 @@
   object-fit:cover;
 }
 
-/* Overlay seguro (NO bloquea clics) */
+/* ===== PC: VIDEO COMPLETO ===== */
+@media (min-width:1024px){
+  .video-bg video{
+    object-fit:contain;
+  }
+}
+
+/* ===== Overlay suave (no bloquea clics) ===== */
 body::before{
   content:"";
   position:fixed;
@@ -31,13 +39,13 @@ body::before{
   pointer-events:none;
 }
 
-/* ===== ESTILOS ===== */
+/* ===== UI ===== */
 .loader{
   border:6px solid #ffffff;
   border-top:6px solid #10b981;
   border-radius:50%;
-  width:45px;
-  height:45px;
+  width:42px;
+  height:42px;
   animation:spin .9s linear infinite;
   margin:auto;
 }
@@ -47,19 +55,24 @@ body::before{
   background:linear-gradient(45deg,#10b981,#06b6d4);
   color:#ffffff;
 }
+
+/* Evita zoom raro en iOS */
+input, button{
+  font-size:16px;
+}
 </style>
 </head>
 
-<body class="text-white">
+<body class="text-white min-h-screen">
 
 <!-- VIDEO DE FONDO -->
 <div class="video-bg">
-  <video autoplay muted loop playsinline>
+  <video autoplay muted loop playsinline webkit-playsinline preload="auto">
     <source src="https://www.dropbox.com/scl/fi/m5qas2mhvfgjy3p5k7o2l/descarga-5-4.mp4?rlkey=ii5nf1cf8kqc39fa5g920opiz&dl=1" type="video/mp4">
   </video>
 </div>
 
-<!-- ================= CONTENIDO PRINCIPAL ================= -->
+<!-- ================= CONTENIDO ================= -->
 <div class="max-w-xl mx-auto p-6 mt-8 relative z-10">
 
   <h2 class="text-3xl font-bold text-center text-emerald-300 mb-4 drop-shadow-lg">
@@ -85,7 +98,7 @@ body::before{
 
   <div id="previewContainer" class="hidden mt-6">
 
-    <video id="previewVideo" controls class="w-full rounded-xl hidden"></video>
+    <video id="previewVideo" controls playsinline class="w-full rounded-xl hidden"></video>
     <img id="previewImage" class="w-full rounded-xl hidden" alt="Imagen TikTok">
 
     <div class="grid gap-3 mt-4">
@@ -160,12 +173,8 @@ async function processTikTok(){
       downloadMP3.classList.remove('hidden');
     }
 
-    let img = null;
-    if(Array.isArray(d.images) && d.images.length){
-      img = d.images[0];
-    }else if(d.image_post_info?.images?.[0]?.display_image?.url_list){
-      img = d.image_post_info.images[0].display_image.url_list[0];
-    }
+    let img = d.images?.[0] ||
+              d.image_post_info?.images?.[0]?.display_image?.url_list?.[0];
 
     if(img){
       previewImage.src = img;
