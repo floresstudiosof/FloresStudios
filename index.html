@@ -18,7 +18,7 @@ body{
   background-attachment:fixed;
 }
 
-/* Overlay suave (NO bloquea clics) */
+/* Overlay suave */
 body::before{
   content:"";
   position:fixed;
@@ -28,7 +28,7 @@ body::before{
   pointer-events:none;
 }
 
-/* ===== UI ===== */
+/* Loader */
 .loader{
   border:6px solid #ffffff;
   border-top:6px solid #10b981;
@@ -45,7 +45,7 @@ body::before{
   color:#ffffff;
 }
 
-/* Evita zoom raro en iOS */
+/* Evita zoom en iOS */
 input, button{
   font-size:16px;
 }
@@ -104,21 +104,26 @@ input, button{
   </div>
 </div>
 
-<!-- ================= CUADRO DE VIDEO ABAJO ================= -->
+<!-- ================= CUADRO DE YOUTUBE ABAJO ================= -->
 <div class="max-w-xl mx-auto mt-6 mb-6 p-4 bg-black/40 backdrop-blur rounded-2xl relative z-10">
   <h3 class="text-center font-semibold text-emerald-200 mb-3">
     Video destacado
   </h3>
 
-  <video controls playsinline class="w-full rounded-xl">
-    <source src="https://www.dropbox.com/scl/fi/2043lkll5lv273x6oth75/Miriam-Molina-LARGATE-Festival-Sure-o-4K-2026-360P.mp4?rlkey=ni1aps9exm62owyy32kdh1djb&dl=1"
-            type="video/mp4">
-    Tu navegador no soporta video HTML5.
-  </video>
+  <div class="relative w-full" style="padding-top:56.25%;">
+    <iframe
+      class="absolute top-0 left-0 w-full h-full rounded-xl"
+      src="https://www.youtube.com/embed/9TgF-1hwzQk"
+      title="YouTube video"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+  </div>
 </div>
 
 <!-- ================= FOOTER ================= -->
-<footer class="max-w-xl mx-auto mb-10 p-4 text-center text-xs text-gray-200 relative z-10">
+<footer class="max-w-xl mx-auto mt-6 mb-10 p-4 text-center text-xs text-gray-200 relative z-10">
 © 2026 FLORES Studios. Todos los derechos reservados.
 </footer>
 
