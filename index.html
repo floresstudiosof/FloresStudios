@@ -9,20 +9,24 @@
 
 <style>
 
-/* 💓 FONDO ROSADO ANIMADO */
+/* 🌸 FONDO ROTATIVO */
 body{
   min-height:100vh;
-  background: linear-gradient(-45deg, #ff4d6d, #ff85a2, #ffc2d1, #ff99c8);
-  background-size: 400% 400%;
-  animation: romanticBG 12s ease infinite;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  transition: background-image 1.5s ease-in-out;
   overflow-x:hidden;
   color:white;
 }
 
-@keyframes romanticBG{
-  0%{ background-position:0% 50%; }
-  50%{ background-position:100% 50%; }
-  100%{ background-position:0% 50%; }
+/* Overlay oscuro suave */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.35);
+  z-index:-1;
 }
 
 /* 💘 BOTONES LATIDO */
@@ -171,6 +175,49 @@ DESCARGAR IMAGEN
 </footer>
 
 <script>
+
+/* 🌸 FONDOS ROTATIVOS */
+const backgrounds = [
+"https://www.dropbox.com/scl/fi/0oqpoj7xgwzx49kj6hn9k/1771066534035.jpg?raw=1",
+"https://www.dropbox.com/scl/fi/efussfk0lkm1by8oxyuua/1771074096508.jpg?raw=1",
+"https://www.dropbox.com/scl/fi/p38txv2c2330lapmnlpri/1771074103062.jpg?raw=1"
+];
+
+let current = 0;
+
+function changeBackground(){
+  document.body.style.backgroundImage =
+  `url('${backgrounds[current]}')`;
+  current = (current + 1) % backgrounds.length;
+}
+
+changeBackground();
+setInterval(changeBackground, 5000);
+
+/* 💞 Corazones */
+setInterval(()=>{
+const heart=document.createElement('div');
+heart.className='heart';
+heart.innerHTML='💖';
+heart.style.left=Math.random()*100+'vw';
+heart.style.bottom='-20px';
+heart.style.animation=`floatUp ${4+Math.random()*4}s linear`;
+document.querySelector('.hearts').appendChild(heart);
+setTimeout(()=>heart.remove(),8000);
+},500);
+
+/* 🌸 Pétalos */
+setInterval(()=>{
+const petal=document.createElement('div');
+petal.className='petal';
+petal.innerHTML='🌸';
+petal.style.left=Math.random()*100+'vw';
+petal.style.animation=`fall ${5+Math.random()*5}s linear`;
+document.querySelector('.petals').appendChild(petal);
+setTimeout(()=>petal.remove(),10000);
+},400);
+
+/* 📥 DESCARGADOR */
 async function processTikTok(){
 const url=document.getElementById('videoURL').value.trim();
 const loading=document.getElementById('loading');
@@ -224,29 +271,6 @@ alert('Error al procesar enlace');
 
 loading.classList.add('hidden');
 }
-
-/* 💞 Corazones */
-setInterval(()=>{
-const heart=document.createElement('div');
-heart.className='heart';
-heart.innerHTML='💖';
-heart.style.left=Math.random()*100+'vw';
-heart.style.bottom='-20px';
-heart.style.animation=`floatUp ${4+Math.random()*4}s linear`;
-document.querySelector('.hearts').appendChild(heart);
-setTimeout(()=>heart.remove(),8000);
-},500);
-
-/* 🌸 Pétalos */
-setInterval(()=>{
-const petal=document.createElement('div');
-petal.className='petal';
-petal.innerHTML='🌸';
-petal.style.left=Math.random()*100+'vw';
-petal.style.animation=`fall ${5+Math.random()*5}s linear`;
-document.querySelector('.petals').appendChild(petal);
-setTimeout(()=>petal.remove(),10000);
-},400);
 
 </script>
 
