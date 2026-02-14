@@ -9,35 +9,62 @@
 
 <style>
 
-/* 💓 FONDO ROSADO ANIMADO */
 body{
   min-height:100vh;
-  background: linear-gradient(-45deg, #ff4d6d, #ff85a2, #ffc2d1, #ff99c8);
-  background-size: 400% 400%;
-  animation: romanticBG 12s ease infinite;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  transition: background-image 1s ease-in-out;
   overflow-x:hidden;
   color:white;
+  font-family:sans-serif;
 }
 
-@keyframes romanticBG{
-  0%{ background-position:0% 50%; }
-  50%{ background-position:100% 50%; }
-  100%{ background-position:0% 50%; }
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+  z-index:0;
 }
 
-/* 💘 BOTONES LATIDO */
+/* SAN VALENTÍN */
+.valentine-box{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:90%;
+  max-width:900px;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(12px);
+  padding:15px 25px;
+  border-radius:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:15px;
+  box-shadow:0 0 25px rgba(255,255,255,0.2);
+  z-index:10;
+}
+
+@media(max-width:768px){
+  .valentine-box{
+    flex-direction:column;
+    text-align:center;
+  }
+}
+
+/* BOTONES ANIMADOS */
 .btn-main,
 #downloadHD,
 #downloadMP3,
 #downloadIMG{
   animation: heartbeat 1.5s infinite;
-  transition: transform .2s ease;
 }
 
 @keyframes heartbeat{
   0%{ transform:scale(1); }
   25%{ transform:scale(1.05); }
-  40%{ transform:scale(1); }
   60%{ transform:scale(1.08); }
   100%{ transform:scale(1); }
 }
@@ -47,51 +74,6 @@ body{
   box-shadow:0 0 15px #ff4d6d;
 }
 
-/* 💞 Corazones y 🌸 Pétalos */
-.hearts,.petals{
-  position:fixed;
-  width:100%;
-  height:100%;
-  top:0;
-  left:0;
-  pointer-events:none;
-  overflow:hidden;
-  z-index:0;
-}
-
-.heart,.petal{
-  position:absolute;
-  font-size:20px;
-  opacity:0.8;
-}
-
-@keyframes floatUp{
-  0%{ transform:translateY(0); opacity:1; }
-  100%{ transform:translateY(-110vh); opacity:0; }
-}
-
-@keyframes fall{
-  0%{ transform:translateY(-10vh) rotate(0deg); opacity:1; }
-  100%{ transform:translateY(110vh) rotate(360deg); opacity:0; }
-}
-
-/* 💌 FIRMA */
-.romantic-sign{
-  font-weight:bold;
-  font-size:18px;
-  letter-spacing:2px;
-  background:linear-gradient(45deg,#ffffff,#ffe6f0,#ffffff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation: romanticGlow 2.5s ease-in-out infinite alternate;
-}
-
-@keyframes romanticGlow{
-  from{ text-shadow:0 0 8px #ff4d6d; }
-  to{ text-shadow:0 0 25px #ff99c8; }
-}
-
-/* Loader */
 .loader{
   border:6px solid #fff;
   border-top:6px solid #ff4d6d;
@@ -101,24 +83,70 @@ body{
   animation:spin 1s linear infinite;
   margin:auto;
 }
+
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* 🔥 BOTÓN LATERAL */
+.floating-btn{
+  position:fixed;
+  right:15px;
+  bottom:150px;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  background:linear-gradient(45deg,#ff4d6d,#ff85a2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  cursor:pointer;
+  box-shadow:0 0 20px #ff4d6d;
+  z-index:50;
+  animation:heartbeat 1.5s infinite;
+}
+
+/* MODAL */
+.video-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:100;
+}
+
+.video-modal iframe{
+  width:90%;
+  max-width:700px;
+  height:400px;
+  border-radius:20px;
+}
+
+.close-btn{
+  position:absolute;
+  top:20px;
+  right:30px;
+  font-size:30px;
+  cursor:pointer;
+  color:white;
+}
 
 </style>
 </head>
 
 <body>
 
-<div class="hearts"></div>
-<div class="petals"></div>
+<div class="overlay"></div>
 
-<div class="max-w-xl mx-auto p-6 mt-8 bg-black/30 backdrop-blur rounded-2xl relative z-10">
+<div class="max-w-xl mx-auto p-6 mt-10 bg-black/40 backdrop-blur rounded-2xl relative z-10">
 
-<h2 class="text-3xl font-bold text-center mb-1 drop-shadow-lg">
+<h2 class="text-3xl font-bold text-center mb-1">
 FLORES Studios
 </h2>
 
-<h3 class="text-xl font-semibold text-center text-pink-100 mb-2">
-Descargar Videos De Tiktok
+<h3 class="text-xl font-semibold text-center text-pink-200 mb-2">
+Descargar Videos De TikTok
 </h3>
 
 <p class="text-center text-white/90 mb-6">
@@ -127,7 +155,7 @@ Video · Imagen · Mp3
 
 <input id="videoURL"
 class="w-full p-3 rounded-xl text-black"
-placeholder="Pega aquí el enlace de Tiktok">
+placeholder="Pega aquí el enlace de TikTok">
 
 <button onclick="processTikTok()"
 class="w-full mt-4 p-3 rounded-xl font-semibold btn-main">
@@ -160,17 +188,72 @@ DESCARGAR IMAGEN
 </a>
 </div>
 </div>
+
 </div>
 
-<div class="romantic-sign text-center mt-10 mb-4 relative z-10">
-💌 HECHO CON AMOR POR FLORES STUDIOS 💌
+<!-- 🔥 BOTÓN FLOTANTE -->
+<div class="floating-btn" onclick="openVideo()">
+🎬
 </div>
 
-<footer class="text-center text-xs mb-10 relative z-10">
+<!-- 🎬 MODAL VIDEO -->
+<div id="videoModal" class="video-modal">
+  <span class="close-btn" onclick="closeVideo()">✖</span>
+  <iframe id="youtubeFrame"
+    src=""
+    allow="autoplay; encrypted-media"
+    allowfullscreen>
+  </iframe>
+</div>
+
+<!-- 💖 MENSAJE -->
+<div class="valentine-box">
+  <h3>¡Feliz día de San Valentín! 💖</h3>
+  <p>
+    Que el amor que compartimos nos haga más fuertes y felices. 💕
+  </p>
+</div>
+
+<footer class="text-center text-xs mt-10 mb-28 relative z-10">
 © 2026 FLORES Studios
 </footer>
 
 <script>
+
+/* FONDO ROTATIVO */
+const backgrounds=[
+"https://i.imgur.com/WoGyn8Y.jpg",
+"https://i.imgur.com/asHhCbb.jpg",
+"https://i.imgur.com/NYG2KFl.jpg"
+];
+
+let bgIndex=0;
+
+function changeBackground(){
+document.body.style.backgroundImage=`url('${backgrounds[bgIndex]}')`;
+bgIndex++;
+if(bgIndex>=backgrounds.length) bgIndex=0;
+}
+changeBackground();
+setInterval(changeBackground,4000);
+
+/* ABRIR VIDEO */
+function openVideo(){
+const modal=document.getElementById("videoModal");
+const frame=document.getElementById("youtubeFrame");
+frame.src="https://www.youtube.com/embed/qEkgQ1nY9wU?autoplay=1";
+modal.style.display="flex";
+}
+
+/* CERRAR VIDEO */
+function closeVideo(){
+const modal=document.getElementById("videoModal");
+const frame=document.getElementById("youtubeFrame");
+frame.src="";
+modal.style.display="none";
+}
+
+/* FUNCIÓN TIKTOK */
 async function processTikTok(){
 const url=document.getElementById('videoURL').value.trim();
 const loading=document.getElementById('loading');
@@ -181,10 +264,16 @@ const downloadHD=document.getElementById('downloadHD');
 const downloadMP3=document.getElementById('downloadMP3');
 const downloadIMG=document.getElementById('downloadIMG');
 
-if(!url || !url.includes('tiktok.com')){
-alert('Pega un enlace válido');
+if(!url || !/^https?:\/\/(www\.)?(tiktok\.com|vm\.tiktok\.com)/.test(url)){
+alert("Pega un enlace válido");
 return;
 }
+
+previewVideo.classList.add('hidden');
+previewImage.classList.add('hidden');
+downloadHD.classList.add('hidden');
+downloadMP3.classList.add('hidden');
+downloadIMG.classList.add('hidden');
 
 previewContainer.classList.add('hidden');
 loading.classList.remove('hidden');
@@ -199,8 +288,8 @@ const d=json.data;
 
 if(d.play){
 previewVideo.src=d.play;
-previewVideo.classList.remove('hidden');
 downloadHD.href=d.play;
+previewVideo.classList.remove('hidden');
 downloadHD.classList.remove('hidden');
 }
 
@@ -211,42 +300,19 @@ downloadMP3.classList.remove('hidden');
 
 if(d.images && d.images[0]){
 previewImage.src=d.images[0];
-previewImage.classList.remove('hidden');
 downloadIMG.href=d.images[0];
+previewImage.classList.remove('hidden');
 downloadIMG.classList.remove('hidden');
 }
 
 previewContainer.classList.remove('hidden');
 
 }catch{
-alert('Error al procesar enlace');
+alert("Error al procesar enlace");
 }
 
 loading.classList.add('hidden');
 }
-
-/* 💞 Corazones */
-setInterval(()=>{
-const heart=document.createElement('div');
-heart.className='heart';
-heart.innerHTML='💖';
-heart.style.left=Math.random()*100+'vw';
-heart.style.bottom='-20px';
-heart.style.animation=`floatUp ${4+Math.random()*4}s linear`;
-document.querySelector('.hearts').appendChild(heart);
-setTimeout(()=>heart.remove(),8000);
-},500);
-
-/* 🌸 Pétalos */
-setInterval(()=>{
-const petal=document.createElement('div');
-petal.className='petal';
-petal.innerHTML='🌸';
-petal.style.left=Math.random()*100+'vw';
-petal.style.animation=`fall ${5+Math.random()*5}s linear`;
-document.querySelector('.petals').appendChild(petal);
-setTimeout(()=>petal.remove(),10000);
-},400);
 
 </script>
 
