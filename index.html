@@ -8,8 +8,6 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-
-/* 🌸 FONDO ROTATIVO */
 body{
   min-height:100vh;
   background-size:cover;
@@ -21,7 +19,6 @@ body{
   font-family:sans-serif;
 }
 
-/* Oscurecer fondo */
 .overlay{
   position:fixed;
   inset:0;
@@ -29,7 +26,6 @@ body{
   z-index:0;
 }
 
-/* 💖 CUADRO SAN VALENTÍN HORIZONTAL */
 .valentine-box{
   position:fixed;
   bottom:20px;
@@ -39,7 +35,6 @@ body{
   max-width:900px;
   background:rgba(255,255,255,0.15);
   backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
   padding:15px 25px;
   border-radius:20px;
   display:flex;
@@ -53,18 +48,13 @@ body{
 .valentine-box h3{
   font-weight:bold;
   font-size:18px;
-  color:#ffffff;
-  text-shadow:0 0 10px rgba(0,0,0,0.9);
   white-space:nowrap;
 }
 
 .valentine-box p{
   font-size:14px;
-  color:#ffffff;
-  text-shadow:0 0 8px rgba(0,0,0,0.9);
 }
 
-/* Responsive móvil */
 @media(max-width:768px){
   .valentine-box{
     flex-direction:column;
@@ -75,13 +65,11 @@ body{
   }
 }
 
-/* 💘 BOTONES */
 .btn-main,
 #downloadHD,
 #downloadMP3,
 #downloadIMG{
   animation: heartbeat 1.5s infinite;
-  transition: transform .2s ease;
 }
 
 @keyframes heartbeat{
@@ -106,8 +94,8 @@ body{
   animation:spin 1s linear infinite;
   margin:auto;
 }
-@keyframes spin{to{transform:rotate(360deg)}}
 
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 
@@ -125,7 +113,7 @@ FLORES Studios
 Descargar Videos De TikTok
 </h3>
 
-<p class="text-center text-white/90 mb-6">
+<p class="text-center mb-6">
 Video · Imagen · Mp3
 </p>
 
@@ -164,17 +152,16 @@ DESCARGAR IMAGEN
 </a>
 </div>
 </div>
-
 </div>
 
-<!-- 💖 MENSAJE HORIZONTAL ABAJO -->
+<!-- 💖 MENSAJE COMPLETO -->
 <div class="valentine-box">
-  <h3>¡Feliz día de San Valentín! 💖</h3>
-  <p>
-    A todos aquellos que aman, que son amados y que creen en el amor,
-    les deseo un día lleno de alegría, cariño y momentos especiales.
-    Que el amor que compartimos nos haga más fuertes y felices. 💕
-  </p>
+<h3>¡Feliz día de San Valentín! 💖</h3>
+<p>
+A todos aquellos que aman, que son amados y que creen en el amor,
+les deseo un día lleno de alegría, cariño y momentos especiales.
+Que el amor que compartimos nos haga más fuertes y felices. 💕
+</p>
 </div>
 
 <footer class="text-center text-xs mt-10 mb-28 relative z-10">
@@ -184,25 +171,25 @@ DESCARGAR IMAGEN
 <script>
 
 /* 🌸 FONDO ROTATIVO */
-const backgrounds = [
-  "https://i.imgur.com/WoGyn8Y.jpg",
-  "https://i.imgur.com/asHhCbb.jpg",
-  "https://i.imgur.com/NYG2KFl.jpg"
+const backgrounds=[
+"https://i.imgur.com/WoGyn8Y.jpg",
+"https://i.imgur.com/asHhCbb.jpg",
+"https://i.imgur.com/NYG2KFl.jpg"
 ];
 
-let bgIndex = 0;
+let bgIndex=0;
 
 function changeBackground(){
-  document.body.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
-  bgIndex++;
-  if(bgIndex >= backgrounds.length) bgIndex = 0;
+document.body.style.backgroundImage=`url('${backgrounds[bgIndex]}')`;
+bgIndex=(bgIndex+1)%backgrounds.length;
 }
 
 changeBackground();
-setInterval(changeBackground, 4000);
+setInterval(changeBackground,4000);
 
-/* 🔥 FUNCIÓN TIKTOK */
+/* 🔥 FUNCIÓN PRINCIPAL */
 async function processTikTok(){
+
 const url=document.getElementById('videoURL').value.trim();
 const loading=document.getElementById('loading');
 const previewContainer=document.getElementById('previewContainer');
@@ -212,8 +199,8 @@ const downloadHD=document.getElementById('downloadHD');
 const downloadMP3=document.getElementById('downloadMP3');
 const downloadIMG=document.getElementById('downloadIMG');
 
-if(!url || !/^https?:\/\/(www\.)?tiktok\.com/.test(url)){
-alert('Pega un enlace válido');
+if(!url || !/(tiktok\.com|vm\.tiktok\.com)/.test(url)){
+alert('Pega un enlace válido de TikTok');
 return;
 }
 
@@ -222,42 +209,52 @@ previewImage.classList.add('hidden');
 downloadHD.classList.add('hidden');
 downloadMP3.classList.add('hidden');
 downloadIMG.classList.add('hidden');
-
 previewContainer.classList.add('hidden');
 loading.classList.remove('hidden');
 
 try{
+
 const apiURL=`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`;
 const res=await fetch(apiURL);
+
+if(!res.ok) throw new Error();
+
 const json=await res.json();
-if(json.code!==0) throw new Error();
+if(json.code!==0 || !json.data) throw new Error();
 
 const d=json.data;
 
+/* VIDEO */
 if(d.play){
 previewVideo.src=d.play;
-downloadHD.href=d.play;
 previewVideo.classList.remove('hidden');
+downloadHD.href=d.play;
+downloadHD.rel="noopener noreferrer";
 downloadHD.classList.remove('hidden');
 }
 
+/* MP3 */
 if(d.music){
 downloadMP3.href=d.music;
+downloadMP3.rel="noopener noreferrer";
 downloadMP3.classList.remove('hidden');
 }
 
-if(d.images && d.images[0]){
+/* IMAGEN */
+if(d.images && d.images.length>0){
 previewImage.src=d.images[0];
-downloadIMG.href=d.images[0];
 previewImage.classList.remove('hidden');
+downloadIMG.href=d.images[0];
+downloadIMG.rel="noopener noreferrer";
 downloadIMG.classList.remove('hidden');
 }
 
 previewContainer.classList.remove('hidden');
 document.getElementById('videoURL').value="";
 
-}catch{
-alert('Error al procesar enlace');
+}catch(e){
+alert("Error al procesar el enlace o la API no respondió");
+console.error(e);
 }
 
 loading.classList.add('hidden');
