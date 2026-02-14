@@ -3,126 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Descargar TikTok - San Valentín</title>
+<title>FLORES Studios | Descargar Videos de TikTok</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-
-/* 💓 FONDO ROSADO ANIMADO */
 body{
-  min-height:100vh;
-  background: linear-gradient(-45deg, #ff4d6d, #ff85a2, #ffc2d1, #ff99c8);
-  background-size: 400% 400%;
-  animation: romanticBG 12s ease infinite;
-  overflow-x:hidden;
+  background:#f2f4f8;
+  font-family:Arial, sans-serif;
+}
+
+.app-card{
+  background:white;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.15);
+}
+
+.download-btn{
+  display:block;
+  text-align:center;
+  padding:14px;
+  border-radius:12px;
+  font-weight:600;
+  background:linear-gradient(135deg,#4e73df,#224abe);
   color:white;
+  transition:0.3s;
 }
 
-@keyframes romanticBG{
-  0%{ background-position:0% 50%; }
-  50%{ background-position:100% 50%; }
-  100%{ background-position:0% 50%; }
+.download-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
 }
 
-/* 💘 BOTONES CON LATIDO */
-.btn-main,
-#downloadHD,
-#download4K,
-#downloadMP3,
-#downloadIMG{
-  animation: heartbeat 1.5s infinite;
-  transition: transform .2s ease;
-}
-
-@keyframes heartbeat{
-  0%{ transform:scale(1); }
-  25%{ transform:scale(1.05); }
-  40%{ transform:scale(1); }
-  60%{ transform:scale(1.08); }
-  100%{ transform:scale(1); }
-}
-
-.btn-main{
-  background:linear-gradient(45deg,#ff4d6d,#ff85a2);
-  box-shadow:0 0 15px #ff4d6d;
-}
-
-/* 💞 Corazones */
-.hearts,.petals{
-  position:fixed;
-  width:100%;
-  height:100%;
-  top:0;
-  left:0;
-  pointer-events:none;
-  overflow:hidden;
-  z-index:0;
-}
-
-.heart,.petal{
-  position:absolute;
-  font-size:20px;
-  opacity:0.8;
-}
-
-@keyframes floatUp{
-  0%{ transform:translateY(0); opacity:1; }
-  100%{ transform:translateY(-110vh); opacity:0; }
-}
-
-@keyframes fall{
-  0%{ transform:translateY(-10vh) rotate(0deg); opacity:1; }
-  100%{ transform:translateY(110vh) rotate(360deg); opacity:0; }
-}
-
-/* 💌 FIRMA */
-.romantic-sign{
-  font-weight:bold;
-  font-size:18px;
-  letter-spacing:2px;
-  background:linear-gradient(45deg,#ffffff,#ffe6f0,#ffffff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation: romanticGlow 2.5s ease-in-out infinite alternate;
-}
-
-@keyframes romanticGlow{
-  from{ text-shadow:0 0 8px #ff4d6d; }
-  to{ text-shadow:0 0 25px #ff99c8; }
+.counter-box{
+  background:#eef2ff;
+  padding:10px;
+  border-radius:10px;
+  font-size:14px;
+  text-align:center;
+  color:#224abe;
+  margin-top:10px;
 }
 
 .loader{
-  border:6px solid #fff;
-  border-top:6px solid #ff4d6d;
+  border:6px solid #ddd;
+  border-top:6px solid #224abe;
   border-radius:50%;
   width:40px;
   height:40px;
   animation:spin 1s linear infinite;
   margin:auto;
 }
-@keyframes spin{to{transform:rotate(360deg)}}
 
+@keyframes spin{
+  to{transform:rotate(360deg);}
+}
 </style>
 </head>
 
-<body>
+<body class="p-4">
 
-<div class="hearts"></div>
-<div class="petals"></div>
+<div class="max-w-md mx-auto app-card p-6">
 
-<div class="max-w-xl mx-auto p-6 mt-8 bg-black/30 backdrop-blur rounded-2xl relative z-10">
-
-<h2 class="text-3xl font-bold text-center mb-4">
-💖 DESCARGAR TIKTOK 💖
+<h2 class="text-2xl font-bold text-center mb-4 text-gray-800">
+FLORES Studios<br>
+<span class="text-base font-normal">Descargar Videos de TikTok</span>
 </h2>
 
 <input id="videoURL"
-class="w-full p-3 rounded-xl text-black"
-placeholder="Pega aquí el enlace de TikTok">
+class="w-full p-3 border rounded-xl mb-3"
+placeholder="Pega enlace de TikTok">
 
 <button onclick="processTikTok()"
-class="w-full mt-4 p-3 rounded-xl font-semibold btn-main">
+class="w-full p-3 rounded-xl download-btn">
 DESCARGAR
 </button>
 
@@ -130,131 +83,122 @@ DESCARGAR
 <div class="loader"></div>
 </div>
 
-<div id="previewContainer" class="hidden mt-6">
+<div id="previewContainer" class="hidden mt-5">
 
-<video id="previewVideo" controls class="w-full rounded-xl hidden"></video>
-<img id="previewImage" class="w-full rounded-xl hidden">
+<img id="thumbnail"
+class="w-full rounded-xl mb-3 hidden">
+
+<video id="previewVideo"
+controls
+class="w-full rounded-xl hidden">
+</video>
 
 <div class="grid gap-3 mt-4">
-<a id="downloadHD" target="_blank"
-class="hidden bg-pink-500 p-3 rounded-xl text-center">
-DESCARGAR VIDEO HD
+
+<a id="downloadMP4"
+class="hidden download-btn"
+onclick="countDownload()">
+⬇ Descargar MP4
 </a>
 
-<a id="downloadMP3" target="_blank"
-class="hidden bg-pink-600 p-3 rounded-xl text-center">
-DESCARGAR MP3
+<a id="downloadHD"
+class="hidden download-btn"
+onclick="countDownload()">
+⬇ Descargar MP4 HD
 </a>
 
-<a id="downloadIMG" target="_blank"
-class="hidden bg-pink-700 p-3 rounded-xl text-center">
-DESCARGAR IMAGEN
+<a id="downloadMP3"
+class="hidden download-btn"
+onclick="countDownload()">
+⬇ Descargar MP3
 </a>
-</div>
-</div>
+
 </div>
 
-<div class="max-w-xl mx-auto mt-6 p-4 bg-black/30 rounded-2xl relative z-10">
-<h3 class="text-center font-semibold mb-3">
-🎬 VIDEO DESTACADO
-</h3>
-
-<div class="relative w-full" style="padding-top:56.25%;">
-<iframe
-class="absolute top-0 left-0 w-full h-full rounded-xl"
-src="https://www.youtube.com/embed/9TgF-1hwzQk"
-frameborder="0"
-allowfullscreen>
-</iframe>
-</div>
+<div id="counterBox" class="counter-box hidden">
+Descargas totales: <span id="downloadCount">0</span>
 </div>
 
-<div class="romantic-sign text-center mt-10 mb-4 relative z-10">
-💌 HECHO CON AMOR POR FLORES STUDIOS 💌
 </div>
-
-<footer class="text-center text-xs mb-10 relative z-10">
-© 2026 FLORES Studios
-</footer>
+</div>
 
 <script>
+
+let totalDownloads = 0;
+
+function countDownload(){
+  totalDownloads++;
+  document.getElementById('downloadCount').innerText = totalDownloads;
+  document.getElementById('counterBox').classList.remove('hidden');
+}
+
 async function processTikTok(){
-const url=document.getElementById('videoURL').value.trim();
-const loading=document.getElementById('loading');
-const previewContainer=document.getElementById('previewContainer');
-const previewVideo=document.getElementById('previewVideo');
-const previewImage=document.getElementById('previewImage');
-const downloadHD=document.getElementById('downloadHD');
-const downloadMP3=document.getElementById('downloadMP3');
-const downloadIMG=document.getElementById('downloadIMG');
+
+const url = document.getElementById('videoURL').value.trim();
+
+const loading = document.getElementById('loading');
+const previewContainer = document.getElementById('previewContainer');
+const previewVideo = document.getElementById('previewVideo');
+const thumbnail = document.getElementById('thumbnail');
+
+const downloadMP4 = document.getElementById('downloadMP4');
+const downloadHD = document.getElementById('downloadHD');
+const downloadMP3 = document.getElementById('downloadMP3');
 
 if(!url || !url.includes('tiktok.com')){
-alert('Pega un enlace válido');
+alert('Enlace inválido');
 return;
 }
 
 previewContainer.classList.add('hidden');
+downloadMP4.classList.add('hidden');
+downloadHD.classList.add('hidden');
+downloadMP3.classList.add('hidden');
+thumbnail.classList.add('hidden');
+previewVideo.classList.add('hidden');
+
 loading.classList.remove('hidden');
 
 try{
-const apiURL=`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`;
-const res=await fetch(apiURL);
-const json=await res.json();
 
-if(json.code!==0) throw new Error();
+const apiURL = `https://api.tiklydown.eu.org/api/download?url=${encodeURIComponent(url)}`;
+const res = await fetch(apiURL);
+const json = await res.json();
 
-const d=json.data;
+if(!json.video) throw new Error();
 
-if(d.play){
-previewVideo.src=d.play;
+if(json.thumbnail){
+  thumbnail.src = json.thumbnail;
+  thumbnail.classList.remove('hidden');
+}
+
+previewVideo.src = json.video;
 previewVideo.classList.remove('hidden');
-downloadHD.href=d.play;
-downloadHD.classList.remove('hidden');
+
+downloadMP4.href = json.video;
+downloadMP4.target = "_blank";
+downloadMP4.classList.remove('hidden');
+
+if(json.video_hd){
+  downloadHD.href = json.video_hd;
+  downloadHD.target = "_blank";
+  downloadHD.classList.remove('hidden');
 }
 
-if(d.music){
-downloadMP3.href=d.music;
-downloadMP3.classList.remove('hidden');
-}
-
-if(d.images && d.images[0]){
-previewImage.src=d.images[0];
-previewImage.classList.remove('hidden');
-downloadIMG.href=d.images[0];
-downloadIMG.classList.remove('hidden');
+if(json.music){
+  downloadMP3.href = json.music;
+  downloadMP3.target = "_blank";
+  downloadMP3.classList.remove('hidden');
 }
 
 previewContainer.classList.remove('hidden');
 
 }catch{
-alert('Error al procesar enlace');
+alert('Error al procesar el enlace');
 }
 
 loading.classList.add('hidden');
 }
-
-// 💞 Corazones
-setInterval(()=>{
-const heart=document.createElement('div');
-heart.className='heart';
-heart.innerHTML='💖';
-heart.style.left=Math.random()*100+'vw';
-heart.style.bottom='-20px';
-heart.style.animation=`floatUp ${4+Math.random()*4}s linear`;
-document.querySelector('.hearts').appendChild(heart);
-setTimeout(()=>heart.remove(),8000);
-},500);
-
-// 🌹 Pétalos
-setInterval(()=>{
-const petal=document.createElement('div');
-petal.className='petal';
-petal.innerHTML='🌸';
-petal.style.left=Math.random()*100+'vw';
-petal.style.animation=`fall ${5+Math.random()*5}s linear`;
-document.querySelector('.petals').appendChild(petal);
-setTimeout(()=>petal.remove(),10000);
-},400);
 
 </script>
 
