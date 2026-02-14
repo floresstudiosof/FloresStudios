@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Descargar TikTok - San Valentín</title>
+<title>FLORES Studios - Descargar Videos</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -25,10 +25,9 @@ body{
   100%{ background-position:0% 50%; }
 }
 
-/* 💘 BOTONES CON LATIDO */
+/* 💘 BOTONES LATIDO */
 .btn-main,
 #downloadHD,
-#download4K,
 #downloadMP3,
 #downloadIMG{
   animation: heartbeat 1.5s infinite;
@@ -48,7 +47,7 @@ body{
   box-shadow:0 0 15px #ff4d6d;
 }
 
-/* 💞 Corazones */
+/* 💞 Corazones y 🌸 Pétalos */
 .hearts,.petals{
   position:fixed;
   width:100%;
@@ -92,6 +91,7 @@ body{
   to{ text-shadow:0 0 25px #ff99c8; }
 }
 
+/* Loader */
 .loader{
   border:6px solid #fff;
   border-top:6px solid #ff4d6d;
@@ -113,13 +113,21 @@ body{
 
 <div class="max-w-xl mx-auto p-6 mt-8 bg-black/30 backdrop-blur rounded-2xl relative z-10">
 
-<h2 class="text-3xl font-bold text-center mb-4">
-💖 DESCARGAR TIKTOK 💖
+<h2 class="text-3xl font-bold text-center mb-1 drop-shadow-lg">
+FLORES Studios
 </h2>
+
+<h3 class="text-xl font-semibold text-center text-pink-100 mb-2">
+Descargar Videos De Tiktok
+</h3>
+
+<p class="text-center text-white/90 mb-6">
+Video · Imagen · Mp3
+</p>
 
 <input id="videoURL"
 class="w-full p-3 rounded-xl text-black"
-placeholder="Pega aquí el enlace de TikTok">
+placeholder="Pega aquí el enlace de Tiktok">
 
 <button onclick="processTikTok()"
 class="w-full mt-4 p-3 rounded-xl font-semibold btn-main">
@@ -154,21 +162,6 @@ DESCARGAR IMAGEN
 </div>
 </div>
 
-<div class="max-w-xl mx-auto mt-6 p-4 bg-black/30 rounded-2xl relative z-10">
-<h3 class="text-center font-semibold mb-3">
-🎬 VIDEO DESTACADO
-</h3>
-
-<div class="relative w-full" style="padding-top:56.25%;">
-<iframe
-class="absolute top-0 left-0 w-full h-full rounded-xl"
-src="https://www.youtube.com/embed/9TgF-1hwzQk"
-frameborder="0"
-allowfullscreen>
-</iframe>
-</div>
-</div>
-
 <div class="romantic-sign text-center mt-10 mb-4 relative z-10">
 💌 HECHO CON AMOR POR FLORES STUDIOS 💌
 </div>
@@ -200,7 +193,6 @@ try{
 const apiURL=`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`;
 const res=await fetch(apiURL);
 const json=await res.json();
-
 if(json.code!==0) throw new Error();
 
 const d=json.data;
@@ -233,7 +225,7 @@ alert('Error al procesar enlace');
 loading.classList.add('hidden');
 }
 
-// 💞 Corazones
+/* 💞 Corazones */
 setInterval(()=>{
 const heart=document.createElement('div');
 heart.className='heart';
@@ -245,7 +237,7 @@ document.querySelector('.hearts').appendChild(heart);
 setTimeout(()=>heart.remove(),8000);
 },500);
 
-// 🌹 Pétalos
+/* 🌸 Pétalos */
 setInterval(()=>{
 const petal=document.createElement('div');
 petal.className='petal';
