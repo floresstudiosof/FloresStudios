@@ -3,275 +3,133 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FLORES Studios - Descargar Videos</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
+<title>Fondo Cinematográfico</title>
 
 <style>
-
-/* 🌸 FONDO ROTATIVO */
-body{
-  min-height:100vh;
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-  transition: background-image 1.5s ease-in-out;
-  overflow-x:hidden;
-  color:white;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-/* Overlay oscuro suave */
-body::before{
-  content:"";
+body, html{
+  height:100%;
+  font-family: Arial, sans-serif;
+  overflow-x:hidden;
+}
+
+/* CONTENEDOR FONDO */
+.bg-container{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  z-index:-2;
+}
+
+/* IMÁGENES */
+.bg-slide{
+  position:absolute;
+  width:120%;
+  height:120%;
+  top:-10%;
+  left:-10%;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transform:scale(1);
+  transition:opacity 2.5s ease-in-out;
+}
+
+/* ACTIVA */
+.bg-slide.active{
+  opacity:1;
+  animation:cinematicZoom 18s ease-in-out forwards;
+}
+
+/* ANIMACIÓN CINEMATOGRÁFICA */
+@keyframes cinematicZoom{
+  0%   { transform:scale(1) translate(0,0); }
+  50%  { transform:scale(1.15) translate(-2%, -2%); }
+  100% { transform:scale(1.22) translate(2%, 2%); }
+}
+
+/* OSCURECIDO PROFESIONAL */
+.overlay-dark{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.35);
+  background:rgba(0,0,0,0.45);
   z-index:-1;
 }
 
-/* 💘 BOTONES LATIDO */
-.btn-main,
-#downloadHD,
-#downloadMP3,
-#downloadIMG{
-  animation: heartbeat 1.5s infinite;
-  transition: transform .2s ease;
+/* CONTENIDO */
+.content{
+  position:relative;
+  z-index:1;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  color:white;
+  padding:20px;
 }
 
-@keyframes heartbeat{
-  0%{ transform:scale(1); }
-  25%{ transform:scale(1.05); }
-  40%{ transform:scale(1); }
-  60%{ transform:scale(1.08); }
-  100%{ transform:scale(1); }
-}
-
-.btn-main{
-  background:linear-gradient(45deg,#ff4d6d,#ff85a2);
-  box-shadow:0 0 15px #ff4d6d;
-}
-
-/* 💞 Corazones y 🌸 Pétalos */
-.hearts,.petals{
-  position:fixed;
-  width:100%;
-  height:100%;
-  top:0;
-  left:0;
-  pointer-events:none;
-  overflow:hidden;
-  z-index:0;
-}
-
-.heart,.petal{
-  position:absolute;
-  font-size:20px;
-  opacity:0.8;
-}
-
-@keyframes floatUp{
-  0%{ transform:translateY(0); opacity:1; }
-  100%{ transform:translateY(-110vh); opacity:0; }
-}
-
-@keyframes fall{
-  0%{ transform:translateY(-10vh) rotate(0deg); opacity:1; }
-  100%{ transform:translateY(110vh) rotate(360deg); opacity:0; }
-}
-
-/* 💌 FIRMA */
-.romantic-sign{
-  font-weight:bold;
-  font-size:18px;
+.content h1{
+  font-size:3rem;
   letter-spacing:2px;
-  background:linear-gradient(45deg,#ffffff,#ffe6f0,#ffffff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation: romanticGlow 2.5s ease-in-out infinite alternate;
 }
 
-@keyframes romanticGlow{
-  from{ text-shadow:0 0 8px #ff4d6d; }
-  to{ text-shadow:0 0 25px #ff99c8; }
+.content p{
+  margin-top:15px;
+  font-size:1.2rem;
 }
-
-/* Loader */
-.loader{
-  border:6px solid #fff;
-  border-top:6px solid #ff4d6d;
-  border-radius:50%;
-  width:40px;
-  height:40px;
-  animation:spin 1s linear infinite;
-  margin:auto;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-
 </style>
 </head>
 
 <body>
 
-<div class="hearts"></div>
-<div class="petals"></div>
-
-<div class="max-w-xl mx-auto p-6 mt-8 bg-black/30 backdrop-blur rounded-2xl relative z-10">
-
-<h2 class="text-3xl font-bold text-center mb-1 drop-shadow-lg">
-FLORES Studios
-</h2>
-
-<h3 class="text-xl font-semibold text-center text-pink-100 mb-2">
-Descargar Videos De Tiktok
-</h3>
-
-<p class="text-center text-white/90 mb-6">
-Video · Imagen · Mp3
-</p>
-
-<input id="videoURL"
-class="w-full p-3 rounded-xl text-black"
-placeholder="Pega aquí el enlace de Tiktok">
-
-<button onclick="processTikTok()"
-class="w-full mt-4 p-3 rounded-xl font-semibold btn-main">
-DESCARGAR
-</button>
-
-<div id="loading" class="hidden mt-4">
-<div class="loader"></div>
+<!-- FONDO -->
+<div class="bg-container">
+  <div class="bg-slide"></div>
+  <div class="bg-slide"></div>
+  <div class="bg-slide"></div>
 </div>
 
-<div id="previewContainer" class="hidden mt-6">
+<div class="overlay-dark"></div>
 
-<video id="previewVideo" controls class="w-full rounded-xl hidden"></video>
-<img id="previewImage" class="w-full rounded-xl hidden">
-
-<div class="grid gap-3 mt-4">
-<a id="downloadHD" target="_blank"
-class="hidden bg-pink-500 p-3 rounded-xl text-center">
-DESCARGAR VIDEO HD
-</a>
-
-<a id="downloadMP3" target="_blank"
-class="hidden bg-pink-600 p-3 rounded-xl text-center">
-DESCARGAR MP3
-</a>
-
-<a id="downloadIMG" target="_blank"
-class="hidden bg-pink-700 p-3 rounded-xl text-center">
-DESCARGAR IMAGEN
-</a>
+<!-- CONTENIDO ENCIMA -->
+<div class="content">
+  <div>
+    <h1>Javier Flores Studios</h1>
+    <p>Producción Profesional 2026</p>
+  </div>
 </div>
-</div>
-</div>
-
-<div class="romantic-sign text-center mt-10 mb-4 relative z-10">
-💌 HECHO CON AMOR POR FLORES STUDIOS 💌
-</div>
-
-<footer class="text-center text-xs mb-10 relative z-10">
-© 2026 FLORES Studios
-</footer>
 
 <script>
-
-/* 🌸 FONDOS ROTATIVOS */
-const backgrounds = [
-"https://www.dropbox.com/scl/fi/0oqpoj7xgwzx49kj6hn9k/1771066534035.jpg?raw=1",
-"https://www.dropbox.com/scl/fi/efussfk0lkm1by8oxyuua/1771074096508.jpg?raw=1",
-"https://www.dropbox.com/scl/fi/p38txv2c2330lapmnlpri/1771074103062.jpg?raw=1"
+const images = [
+"https://dl.dropboxusercontent.com/s/0oqpoj7xgwzx49kj6hn9k/1771066535.jpg",
+"https://dl.dropboxusercontent.com/s/efussfk0lkm1by8oxyuua/1771074096508.jpg",
+"https://dl.dropboxusercontent.com/s/p38txv2c2330lapmnlpri/1771074103062.jpg"
 ];
 
+const slides = document.querySelectorAll('.bg-slide');
 let current = 0;
 
-function changeBackground(){
-  document.body.style.backgroundImage =
-  `url('${backgrounds[current]}')`;
-  current = (current + 1) % backgrounds.length;
+slides.forEach((slide, index) => {
+  slide.style.backgroundImage = `url('${images[index]}')`;
+});
+
+function changeSlide(){
+  slides.forEach(slide => slide.classList.remove('active'));
+  slides[current].classList.add('active');
+  current = (current + 1) % slides.length;
 }
 
-changeBackground();
-setInterval(changeBackground, 5000);
-
-/* 💞 Corazones */
-setInterval(()=>{
-const heart=document.createElement('div');
-heart.className='heart';
-heart.innerHTML='💖';
-heart.style.left=Math.random()*100+'vw';
-heart.style.bottom='-20px';
-heart.style.animation=`floatUp ${4+Math.random()*4}s linear`;
-document.querySelector('.hearts').appendChild(heart);
-setTimeout(()=>heart.remove(),8000);
-},500);
-
-/* 🌸 Pétalos */
-setInterval(()=>{
-const petal=document.createElement('div');
-petal.className='petal';
-petal.innerHTML='🌸';
-petal.style.left=Math.random()*100+'vw';
-petal.style.animation=`fall ${5+Math.random()*5}s linear`;
-document.querySelector('.petals').appendChild(petal);
-setTimeout(()=>petal.remove(),10000);
-},400);
-
-/* 📥 DESCARGADOR */
-async function processTikTok(){
-const url=document.getElementById('videoURL').value.trim();
-const loading=document.getElementById('loading');
-const previewContainer=document.getElementById('previewContainer');
-const previewVideo=document.getElementById('previewVideo');
-const previewImage=document.getElementById('previewImage');
-const downloadHD=document.getElementById('downloadHD');
-const downloadMP3=document.getElementById('downloadMP3');
-const downloadIMG=document.getElementById('downloadIMG');
-
-if(!url || !url.includes('tiktok.com')){
-alert('Pega un enlace válido');
-return;
-}
-
-previewContainer.classList.add('hidden');
-loading.classList.remove('hidden');
-
-try{
-const apiURL=`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`;
-const res=await fetch(apiURL);
-const json=await res.json();
-if(json.code!==0) throw new Error();
-
-const d=json.data;
-
-if(d.play){
-previewVideo.src=d.play;
-previewVideo.classList.remove('hidden');
-downloadHD.href=d.play;
-downloadHD.classList.remove('hidden');
-}
-
-if(d.music){
-downloadMP3.href=d.music;
-downloadMP3.classList.remove('hidden');
-}
-
-if(d.images && d.images[0]){
-previewImage.src=d.images[0];
-previewImage.classList.remove('hidden');
-downloadIMG.href=d.images[0];
-downloadIMG.classList.remove('hidden');
-}
-
-previewContainer.classList.remove('hidden');
-
-}catch{
-alert('Error al procesar enlace');
-}
-
-loading.classList.add('hidden');
-}
-
+changeSlide();
+setInterval(changeSlide, 8000);
 </script>
 
 </body>
