@@ -9,6 +9,7 @@
 
 <style>
 
+/* 🌸 FONDO ROTATIVO */
 body{
   min-height:100vh;
   background-size:cover;
@@ -20,6 +21,7 @@ body{
   font-family:sans-serif;
 }
 
+/* Oscurecer fondo */
 .overlay{
   position:fixed;
   inset:0;
@@ -27,7 +29,7 @@ body{
   z-index:0;
 }
 
-/* SAN VALENTÍN */
+/* 💖 CUADRO SAN VALENTÍN HORIZONTAL */
 .valentine-box{
   position:fixed;
   bottom:20px;
@@ -37,6 +39,7 @@ body{
   max-width:900px;
   background:rgba(255,255,255,0.15);
   backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
   padding:15px 25px;
   border-radius:20px;
   display:flex;
@@ -47,24 +50,44 @@ body{
   z-index:10;
 }
 
+.valentine-box h3{
+  font-weight:bold;
+  font-size:18px;
+  color:#ffffff;
+  text-shadow:0 0 10px rgba(0,0,0,0.9);
+  white-space:nowrap;
+}
+
+.valentine-box p{
+  font-size:14px;
+  color:#ffffff;
+  text-shadow:0 0 8px rgba(0,0,0,0.9);
+}
+
+/* Responsive móvil */
 @media(max-width:768px){
   .valentine-box{
     flex-direction:column;
     text-align:center;
   }
+  .valentine-box h3{
+    white-space:normal;
+  }
 }
 
-/* BOTONES ANIMADOS */
+/* 💘 BOTONES */
 .btn-main,
 #downloadHD,
 #downloadMP3,
 #downloadIMG{
   animation: heartbeat 1.5s infinite;
+  transition: transform .2s ease;
 }
 
 @keyframes heartbeat{
   0%{ transform:scale(1); }
   25%{ transform:scale(1.05); }
+  40%{ transform:scale(1); }
   60%{ transform:scale(1.08); }
   100%{ transform:scale(1); }
 }
@@ -83,54 +106,7 @@ body{
   animation:spin 1s linear infinite;
   margin:auto;
 }
-
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* 🔥 BOTÓN LATERAL */
-.floating-btn{
-  position:fixed;
-  right:15px;
-  bottom:150px;
-  width:55px;
-  height:55px;
-  border-radius:50%;
-  background:linear-gradient(45deg,#ff4d6d,#ff85a2);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:24px;
-  cursor:pointer;
-  box-shadow:0 0 20px #ff4d6d;
-  z-index:50;
-  animation:heartbeat 1.5s infinite;
-}
-
-/* MODAL */
-.video-modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.85);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:100;
-}
-
-.video-modal iframe{
-  width:90%;
-  max-width:700px;
-  height:400px;
-  border-radius:20px;
-}
-
-.close-btn{
-  position:absolute;
-  top:20px;
-  right:30px;
-  font-size:30px;
-  cursor:pointer;
-  color:white;
-}
 
 </style>
 </head>
@@ -191,25 +167,12 @@ DESCARGAR IMAGEN
 
 </div>
 
-<!-- 🔥 BOTÓN FLOTANTE -->
-<div class="floating-btn" onclick="openVideo()">
-🎬
-</div>
-
-<!-- 🎬 MODAL VIDEO -->
-<div id="videoModal" class="video-modal">
-  <span class="close-btn" onclick="closeVideo()">✖</span>
-  <iframe id="youtubeFrame"
-    src=""
-    allow="autoplay; encrypted-media"
-    allowfullscreen>
-  </iframe>
-</div>
-
-<!-- 💖 MENSAJE -->
+<!-- 💖 MENSAJE HORIZONTAL ABAJO -->
 <div class="valentine-box">
   <h3>¡Feliz día de San Valentín! 💖</h3>
   <p>
+    A todos aquellos que aman, que son amados y que creen en el amor,
+    les deseo un día lleno de alegría, cariño y momentos especiales.
     Que el amor que compartimos nos haga más fuertes y felices. 💕
   </p>
 </div>
@@ -220,40 +183,25 @@ DESCARGAR IMAGEN
 
 <script>
 
-/* FONDO ROTATIVO */
-const backgrounds=[
-"https://i.imgur.com/WoGyn8Y.jpg",
-"https://i.imgur.com/asHhCbb.jpg",
-"https://i.imgur.com/NYG2KFl.jpg"
+/* 🌸 FONDO ROTATIVO */
+const backgrounds = [
+  "https://i.imgur.com/WoGyn8Y.jpg",
+  "https://i.imgur.com/asHhCbb.jpg",
+  "https://i.imgur.com/NYG2KFl.jpg"
 ];
 
-let bgIndex=0;
+let bgIndex = 0;
 
 function changeBackground(){
-document.body.style.backgroundImage=`url('${backgrounds[bgIndex]}')`;
-bgIndex++;
-if(bgIndex>=backgrounds.length) bgIndex=0;
+  document.body.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
+  bgIndex++;
+  if(bgIndex >= backgrounds.length) bgIndex = 0;
 }
+
 changeBackground();
-setInterval(changeBackground,4000);
+setInterval(changeBackground, 4000);
 
-/* ABRIR VIDEO */
-function openVideo(){
-const modal=document.getElementById("videoModal");
-const frame=document.getElementById("youtubeFrame");
-frame.src="https://www.youtube.com/embed/qEkgQ1nY9wU?autoplay=1";
-modal.style.display="flex";
-}
-
-/* CERRAR VIDEO */
-function closeVideo(){
-const modal=document.getElementById("videoModal");
-const frame=document.getElementById("youtubeFrame");
-frame.src="";
-modal.style.display="none";
-}
-
-/* FUNCIÓN TIKTOK */
+/* 🔥 FUNCIÓN TIKTOK */
 async function processTikTok(){
 const url=document.getElementById('videoURL').value.trim();
 const loading=document.getElementById('loading');
@@ -264,8 +212,8 @@ const downloadHD=document.getElementById('downloadHD');
 const downloadMP3=document.getElementById('downloadMP3');
 const downloadIMG=document.getElementById('downloadIMG');
 
-if(!url || !/^https?:\/\/(www\.)?(tiktok\.com|vm\.tiktok\.com)/.test(url)){
-alert("Pega un enlace válido");
+if(!url || !/^https?:\/\/(www\.)?tiktok\.com/.test(url)){
+alert('Pega un enlace válido');
 return;
 }
 
@@ -306,9 +254,10 @@ downloadIMG.classList.remove('hidden');
 }
 
 previewContainer.classList.remove('hidden');
+document.getElementById('videoURL').value="";
 
 }catch{
-alert("Error al procesar enlace");
+alert('Error al procesar enlace');
 }
 
 loading.classList.add('hidden');
