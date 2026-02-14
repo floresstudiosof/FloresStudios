@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fondo Cinematográfico</title>
+<title>Diseño Romántico</title>
 
 <style>
 *{
@@ -15,53 +15,50 @@
 body, html{
   height:100%;
   font-family: Arial, sans-serif;
-  overflow-x:hidden;
+  overflow:hidden;
 }
 
-/* CONTENEDOR FONDO */
-.bg-container{
+/* FONDO ROTATIVO */
+.background{
   position:fixed;
-  top:0;
-  left:0;
   width:100%;
   height:100%;
-  overflow:hidden;
+  background-size:cover;
+  background-position:center;
+  transition:background-image 1s ease-in-out;
+  z-index:-3;
+}
+
+/* OSCURECIDO SUAVE */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.35);
   z-index:-2;
 }
 
-/* IMÁGENES */
-.bg-slide{
-  position:absolute;
-  width:120%;
-  height:120%;
-  top:-10%;
-  left:-10%;
-  background-size:cover;
-  background-position:center;
-  opacity:0;
-  transform:scale(1);
-  transition:opacity 2.5s ease-in-out;
-}
-
-/* ACTIVA */
-.bg-slide.active{
-  opacity:1;
-  animation:cinematicZoom 18s ease-in-out forwards;
-}
-
-/* ANIMACIÓN CINEMATOGRÁFICA */
-@keyframes cinematicZoom{
-  0%   { transform:scale(1) translate(0,0); }
-  50%  { transform:scale(1.15) translate(-2%, -2%); }
-  100% { transform:scale(1.22) translate(2%, 2%); }
-}
-
-/* OSCURECIDO PROFESIONAL */
-.overlay-dark{
+/* CORAZONES FLOTANDO */
+.hearts{
   position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.45);
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  overflow:hidden;
   z-index:-1;
+}
+
+.heart{
+  position:absolute;
+  color:#ff4d6d;
+  font-size:20px;
+  animation:float 6s linear infinite;
+  opacity:0.8;
+}
+
+@keyframes float{
+  0%{ transform:translateY(100vh) scale(1); opacity:0; }
+  30%{ opacity:1; }
+  100%{ transform:translateY(-10vh) scale(1.5); opacity:0; }
 }
 
 /* CONTENIDO */
@@ -79,7 +76,7 @@ body, html{
 
 .content h1{
   font-size:3rem;
-  letter-spacing:2px;
+  text-shadow:0 0 20px rgba(255,0,100,0.8);
 }
 
 .content p{
@@ -91,45 +88,55 @@ body, html{
 
 <body>
 
-<!-- FONDO -->
-<div class="bg-container">
-  <div class="bg-slide"></div>
-  <div class="bg-slide"></div>
-  <div class="bg-slide"></div>
-</div>
+<div class="background" id="bg"></div>
+<div class="overlay"></div>
 
-<div class="overlay-dark"></div>
+<div class="hearts" id="hearts"></div>
 
-<!-- CONTENIDO ENCIMA -->
 <div class="content">
   <div>
     <h1>Javier Flores Studios</h1>
-    <p>Producción Profesional 2026</p>
+    <p>Producción Romántica 2026</p>
   </div>
 </div>
 
 <script>
+/* IMÁGENES ROTATIVAS */
 const images = [
 "https://dl.dropboxusercontent.com/s/0oqpoj7xgwzx49kj6hn9k/1771066535.jpg",
 "https://dl.dropboxusercontent.com/s/efussfk0lkm1by8oxyuua/1771074096508.jpg",
 "https://dl.dropboxusercontent.com/s/p38txv2c2330lapmnlpri/1771074103062.jpg"
 ];
 
-const slides = document.querySelectorAll('.bg-slide');
-let current = 0;
+let index = 0;
+const bg = document.getElementById("bg");
 
-slides.forEach((slide, index) => {
-  slide.style.backgroundImage = `url('${images[index]}')`;
-});
-
-function changeSlide(){
-  slides.forEach(slide => slide.classList.remove('active'));
-  slides[current].classList.add('active');
-  current = (current + 1) % slides.length;
+function changeBackground(){
+  bg.style.backgroundImage = `url('${images[index]}')`;
+  index = (index + 1) % images.length;
 }
 
-changeSlide();
-setInterval(changeSlide, 8000);
+changeBackground();
+setInterval(changeBackground, 7000);
+
+/* GENERAR CORAZONES */
+const heartsContainer = document.getElementById("hearts");
+
+function createHeart(){
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML = "❤";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+  heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+  heartsContainer.appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, 6000);
+}
+
+setInterval(createHeart, 500);
 </script>
 
 </body>
