@@ -26,45 +26,6 @@ body{
   z-index:0;
 }
 
-.valentine-box{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  width:90%;
-  max-width:900px;
-  background:rgba(255,255,255,0.15);
-  backdrop-filter:blur(12px);
-  padding:15px 25px;
-  border-radius:20px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:15px;
-  box-shadow:0 0 25px rgba(255,255,255,0.2);
-  z-index:10;
-}
-
-.valentine-box h3{
-  font-weight:bold;
-  font-size:18px;
-  white-space:nowrap;
-}
-
-.valentine-box p{
-  font-size:14px;
-}
-
-@media(max-width:768px){
-  .valentine-box{
-    flex-direction:column;
-    text-align:center;
-  }
-  .valentine-box h3{
-    white-space:normal;
-  }
-}
-
 .btn-main,
 #downloadHD,
 #downloadMP3,
@@ -103,7 +64,7 @@ body{
 
 <div class="overlay"></div>
 
-<div class="max-w-xl mx-auto p-6 mt-10 bg-black/40 backdrop-blur rounded-2xl relative z-10">
+<div class="max-w-xl mx-auto p-6 mt-16 bg-black/40 backdrop-blur rounded-2xl relative z-10">
 
 <h2 class="text-3xl font-bold text-center mb-1">
 FLORES Studios
@@ -154,17 +115,7 @@ DESCARGAR IMAGEN
 </div>
 </div>
 
-<!-- 💖 MENSAJE COMPLETO -->
-<div class="valentine-box">
-<h3>¡Feliz día de San Valentín! 💖</h3>
-<p>
-A todos aquellos que aman, que son amados y que creen en el amor,
-les deseo un día lleno de alegría, cariño y momentos especiales.
-Que el amor que compartimos nos haga más fuertes y felices. 💕
-</p>
-</div>
-
-<footer class="text-center text-xs mt-10 mb-28 relative z-10">
+<footer class="text-center text-xs mt-10 mb-10 relative z-10">
 © 2026 FLORES Studios
 </footer>
 
@@ -224,7 +175,6 @@ if(json.code!==0 || !json.data) throw new Error();
 
 const d=json.data;
 
-/* VIDEO */
 if(d.play){
 previewVideo.src=d.play;
 previewVideo.classList.remove('hidden');
@@ -233,14 +183,12 @@ downloadHD.rel="noopener noreferrer";
 downloadHD.classList.remove('hidden');
 }
 
-/* MP3 */
 if(d.music){
 downloadMP3.href=d.music;
 downloadMP3.rel="noopener noreferrer";
 downloadMP3.classList.remove('hidden');
 }
 
-/* IMAGEN */
 if(d.images && d.images.length>0){
 previewImage.src=d.images[0];
 previewImage.classList.remove('hidden');
